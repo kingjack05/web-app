@@ -1,9 +1,10 @@
 import React from "react"
-import { Router, Route, Switch, NavLink, Link } from "react-router-dom"
+import { Router, Route, Switch } from "react-router-dom"
 
 import history from "../history"
 import Mainpage from "./Mainpage"
 import SignIn from "./SignIn"
+import Test from "./Test"
 import PatientDetails from "./Patient/PatientDetails"
 
 const App = () => {
@@ -13,6 +14,9 @@ const App = () => {
                 <Switch>
                     <Route path="/" exact>
                         <Mainpage />
+                    </Route>
+                    <Route path="/test">
+                        <Test />
                     </Route>
                     <Route path="/signIn">
                         <SignIn />

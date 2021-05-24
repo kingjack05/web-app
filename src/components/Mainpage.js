@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 
-import api from "../api"
+// import api from "../api"
 import history from "../history"
 
 import { Mobile, Default } from "./Viewport"

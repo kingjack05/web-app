@@ -43,5 +43,5 @@ export const deletePatientData = (id) => async (dispatch, getState) => {
         getState().auth.authConfig
     )
 
-    dispatch({ type: DELETE_PATIENT_DATA })
+    dispatch({ type: DELETE_PATIENT_DATA, payload: response })
 }
