@@ -19,10 +19,10 @@ const StyledModal = Modal.styled`
 `
 
 export class CreateNewPatientModal extends Component {
-    submitCreateNewPatientForm = (formValues) => {
-        this.props.createNewPatient(formValues)
-        this.props.readPatientList()
-        this.props.closeCreateNewPatientModal()
+    submitCreateNewPatientForm = async (formValues) => {
+        await this.props.createNewPatient(formValues)
+        await this.props.readPatientList()
+        await this.props.closeCreateNewPatientModal()
     }
     render() {
         return (
@@ -46,22 +46,6 @@ export class CreateNewPatientModal extends Component {
                                     ></Field>
                                 </div>
                                 <div>
-                                    <label>Admitted Date</label>
-                                    <Field
-                                        name="admittedDate"
-                                        component="input"
-                                        type="date"
-                                    ></Field>
-                                </div>
-                                <div>
-                                    <label>Primary Caretaker</label>
-                                    <Field
-                                        name="primaryCaretaker"
-                                        component="input"
-                                        type="text"
-                                    ></Field>
-                                </div>
-                                <div>
                                     <label>Age</label>
                                     <Field
                                         name="age"
@@ -71,7 +55,11 @@ export class CreateNewPatientModal extends Component {
                                 </div>
                                 <div>
                                     <label>Sex</label>
-                                    <Field name="sex" component="select">
+                                    <Field
+                                        name="sex"
+                                        component="select"
+                                        initialValue="true"
+                                    >
                                         <option value="true">Male</option>
                                         <option value="false">Female</option>
                                     </Field>

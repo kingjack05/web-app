@@ -6,10 +6,18 @@ import Mainpage from "./Mainpage"
 import SignIn from "./SignIn"
 import Test from "./Test"
 import PatientDetails from "./Patient/PatientDetails"
+import styled from "styled-components"
+
+const Wrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+`
 
 const App = () => {
     return (
-        <div>
+        <Wrapper>
             <Router history={history}>
                 <Switch>
                     <Route path="/" exact>
@@ -29,7 +37,7 @@ const App = () => {
                     ></Route>
                 </Switch>
             </Router>
-        </div>
+        </Wrapper>
     )
 }
 
