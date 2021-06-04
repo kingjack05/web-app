@@ -1,32 +1,24 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
+import styled from "styled-components"
 import { Form, Field } from "react-final-form"
 import arrayMutators from "final-form-arrays"
 import { FieldArray } from "react-final-form-arrays"
 
-// import StyledToggle from "./Utilities/StyledToggle"
-import DatapointAutocomplete from "./Search/DatapointAutocompleteCombobox"
-import StandardBlock from "./Module/StandardBlock"
-import styled from "styled-components"
-import Switch from "@material-ui/core/Switch"
+import DatapointAutocomplete from "../Search/DatapointAutocompleteCombobox"
 
-const Wrapper = styled.div`
+const BlockTitle = styled.input``
+const DatapointWrapper = styled.div`
     display: flex;
     justify-content: space-between;
 `
-const StandardBlockAdapter = ({ input }) => {
-    return <StandardBlock onChange={input.onChange} />
-}
 const DatapointAutocompleteAdapter = ({ input }) => {
     return <DatapointAutocomplete onChange={input.onChange} />
 }
 
-const SwitchAdapter = ({ input: { onChange, value }, label, ...rest }) => (
-    <Switch label={label} checked={!!value} onChange={onChange} {...rest} />
-)
-
-export class Test extends Component {
+export class StandardBlock extends Component {
     handleonSubmit = (formValues) => {
+        this.props.onChange(formValues)
         console.log(formValues)
     }
     render() {
@@ -49,46 +41,35 @@ export class Test extends Component {
                     }) => {
                         return (
                             <div>
-                                <Field name="test">
+                                <Field name="name">
                                     {(props) => (
                                         <div>
-                                            <input
+                                            <BlockTitle
                                                 name={props.input.name}
                                                 onChange={(event) =>
                                                     props.input.onChange(
-                                                        event.target.value.toUpperCase()
+                                                        event.target.value
                                                     )
                                                 }
                                             />
                                         </div>
                                     )}
                                 </Field>
-                                <Field
-                                    name="employed"
-                                    label="Employed?"
-                                    component={SwitchAdapter}
-                                />
                                 <button
                                     type="button"
-                                    onClick={() => push("datapoint", undefined)}
+                                    onClick={() => push("content", undefined)}
                                 >
                                     Add datapoint
                                 </button>
-                                <FieldArray name="datapoint">
+                                <FieldArray name="content">
                                     {({ fields }) =>
                                         fields.map((name, index) => (
-                                            <Wrapper key={index}>
-                                                <label>
-                                                    Datapoint. #{index + 1}
-                                                </label>
+                                            <DatapointWrapper key={index}>
+                                                <label>#{index + 1}</label>
                                                 <Field
-                                                    name={name}
+                                                    name={name + ".field"}
                                                     component={
                                                         DatapointAutocompleteAdapter
-                                                    }
-                                                    parse={(value) =>
-                                                        value &&
-                                                        value.toUpperCase()
                                                     }
                                                 />
                                                 <span
@@ -101,15 +82,13 @@ export class Test extends Component {
                                                 >
                                                     ❌
                                                 </span>
-                                            </Wrapper>
+                                            </DatapointWrapper>
                                         ))
                                     }
                                 </FieldArray>
-                                <Field
-                                    name="block"
-                                    component={StandardBlockAdapter}
-                                />
-                                <pre>{JSON.stringify(values, 0, 2)}</pre>
+                                <button type="submit" onClick={handleSubmit}>
+                                    Save
+                                </button>
                             </div>
                         )
                     }}
@@ -123,4 +102,4 @@ const mapStateToProps = (state) => ({})
 
 const mapDispatchToProps = {}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Test)
+export default connect(mapStateToProps, mapDispatchToProps)(StandardBlock)

@@ -3,10 +3,19 @@ import { connect } from "react-redux"
 import Downshift from "downshift"
 
 import { searchDatapointAutocomplete } from "../../actions/search"
+import styled from "styled-components"
+
+//* onChange prop must be passed in
+
+const Dropdown = styled.ul`
+    height: auto;
+    max-height: 8rem;
+    overflow-x: hidden;
+`
 
 export class DatapointAutocomplete extends Component {
     handleonChange = (selectedItem) => {
-        this.props.onChange(selectedItem.name)
+        this.props.onChange(selectedItem._id)
     }
     handleonInput = (event) => {
         if (event.target.value.length >= 4) {
@@ -42,7 +51,7 @@ export class DatapointAutocomplete extends Component {
                                     })}
                                 />
                             </div>
-                            <ul {...getMenuProps()}>
+                            <Dropdown {...getMenuProps()}>
                                 {isOpen
                                     ? this.props.search.searchDatapointAutocompleteResult.map(
                                           (item, index) => (
@@ -65,7 +74,7 @@ export class DatapointAutocomplete extends Component {
                                           )
                                       )
                                     : null}
-                            </ul>
+                            </Dropdown>
                         </div>
                     )}
                 </Downshift>

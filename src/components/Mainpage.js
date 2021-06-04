@@ -21,7 +21,6 @@ export class Mainpage extends Component {
                     <PatientList></PatientList>
                 </Default>
                 <Mobile>Mobile view!</Mobile>
-                <nav></nav>
             </div>
         )
     }

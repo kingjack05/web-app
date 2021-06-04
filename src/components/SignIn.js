@@ -15,6 +15,7 @@ const Wrapper = styled.div`
 const Centered = styled.div`
     border: medium solid grey;
     border-radius: 30px;
+    padding: 30px;
 `
 export class SignIn extends Component {
     onSubmit = (formValues) => {
@@ -30,6 +31,7 @@ export class SignIn extends Component {
                                 {" "}
                                 <div>
                                     <label>Email</label>
+                                    <br />
                                     <Field
                                         name="email"
                                         component="input"
@@ -39,6 +41,7 @@ export class SignIn extends Component {
                                 </div>
                                 <div>
                                     <label>Password</label>
+                                    <br />
                                     <Field
                                         name="password"
                                         component="input"
