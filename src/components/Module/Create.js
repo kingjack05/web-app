@@ -4,16 +4,20 @@ import { Form, Field } from "react-final-form"
 import arrayMutators from "final-form-arrays"
 import { FieldArray } from "react-final-form-arrays"
 import styled from "styled-components"
+import history from "../../history"
 
 import StandardBlock from "./StandardBlock"
+
+import { createNewPublicModule } from "../../actions/module"
 
 const BlockWrapper = styled.div``
 const StandardBlockAdapter = ({ input }) => {
     return <StandardBlock onChange={input.onChange} />
 }
 export class Create extends Component {
-    handleonSubmit = (formValues) => {
-        console.log(formValues)
+    handleonSubmit = async (formValues) => {
+        await this.props.createNewPublicModule(formValues)
+        history.push("./myModules")
     }
     render() {
         return (
@@ -36,41 +40,23 @@ export class Create extends Component {
                     }) => {
                         return (
                             <div>
-                                <Field name="test">
-                                    {(props) => (
-                                        <div>
-                                            <input
-                                                name={props.input.name}
-                                                onChange={(event) =>
-                                                    props.input.onChange(
-                                                        event.target.value.toUpperCase()
-                                                    )
-                                                }
-                                            />
-                                        </div>
-                                    )}
-                                </Field>
-                                <button
-                                    type="button"
-                                    onClick={() => push("content", undefined)}
-                                >
+                                <Field name="name" component="input" placeholder="Module Name" />
+                                <button type="button" onClick={() => push("content", undefined)}>
                                     Add block
                                 </button>
                                 <FieldArray name="content">
                                     {({ fields }) =>
                                         fields.map((name, index) => (
                                             <BlockWrapper key={index}>
-                                                <Field
-                                                    name={name}
-                                                    component={
-                                                        StandardBlockAdapter
-                                                    }
-                                                />
+                                                <Field name={name} component={StandardBlockAdapter} />
                                             </BlockWrapper>
                                         ))
                                     }
                                 </FieldArray>
                                 <pre>{JSON.stringify(values, 0, 2)}</pre>
+                                <button type="submit" onClick={handleSubmit} disabled={submitting || pristine}>
+                                    {submitting ? "Submitting" : "Save"}
+                                </button>
                             </div>
                         )
                     }}
@@ -82,6 +68,6 @@ export class Create extends Component {
 
 const mapStateToProps = (state) => ({})
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = { createNewPublicModule }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Create)

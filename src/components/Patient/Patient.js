@@ -4,6 +4,8 @@ import styled from "styled-components"
 
 import history from "../../history"
 
+import { readPatientList, deletePatientData } from "../../actions/patient"
+
 const Wrapper = styled.div`
     &:hover {
         box-shadow: inset 3px 0px #53caff;
@@ -27,17 +29,29 @@ export class Patient extends Component {
     onClick = () => {
         history.push(`/patient/${this.props.id}`)
     }
+    handleDelete = async (event) => {
+        event.stopPropagation()
+        await this.props.deletePatientData(this.props.id)
+        await this.props.readPatientList()
+    }
     render() {
         return (
             <Wrapper onClick={this.onClick}>
                 {" "}
                 <PropertyContainer>
                     <Title>{this.props.title}</Title>
-                    <Text>{`${this.props.age} year-old ${
-                        this.props.sex ? "male" : "female"
-                    }`}</Text>
+                    <Text>
+                        {`${this.props.age} year-old ${this.props.sex ? "male" : "female"}`}
+                        <span
+                            onClick={this.handleDelete}
+                            style={{
+                                cursor: "pointer",
+                            }}
+                        >
+                            ❌
+                        </span>
+                    </Text>
                 </PropertyContainer>
-                <div></div>
             </Wrapper>
         )
     }
@@ -45,6 +59,6 @@ export class Patient extends Component {
 
 const mapStateToProps = (state) => ({})
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = { readPatientList, deletePatientData }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Patient)

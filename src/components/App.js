@@ -6,6 +6,8 @@ import Mainpage from "./Mainpage"
 import SignIn from "./SignIn"
 import Test from "./Test"
 import PatientDetails from "./Patient/PatientDetails"
+import MyModules from "./Module/MyModules"
+import ModuleDetails from "./Module/ModuleDetails"
 import CreateModule from "./Module/Create"
 import styled from "styled-components"
 
@@ -67,28 +69,15 @@ const App = () => {
                     {""}
                     <NavUnlisted>
                         {headerlinks.map((link, index) => (
-                            <NavLink
-                                key={index}
-                                to={link.path}
-                                exact
-                                activeClassName="current"
-                            >
+                            <NavLink key={index} to={link.path} exact activeClassName="current">
                                 <li>{link.name}</li>
                             </NavLink>
                         ))}
                         <li>
-                            <Link to="/createModule">Create...</Link>
+                            <Link to="/myModules">Modules</Link>
                             <ul>
                                 <li>
-                                    <Link to="/createModule">
-                                        Create Module
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/">Test</Link>
-                                </li>
-                                <li>
-                                    <Link to="/">Test</Link>
+                                    <Link to="/createModule">New</Link>
                                 </li>
                             </ul>
                         </li>
@@ -102,6 +91,9 @@ const App = () => {
                     <Route path="/createModule">
                         <CreateModule />
                     </Route>
+                    <Route path="/myModules">
+                        <MyModules />
+                    </Route>
                     <Route path="/test">
                         <Test />
                     </Route>
@@ -109,9 +101,15 @@ const App = () => {
                         <SignIn />
                     </Route>
                     <Route
+                        path="/module/:id"
+                        render={({ match }) => {
+                            return <ModuleDetails id={match.params.id} />
+                        }}
+                    ></Route>
+                    <Route
                         path="/patient/:id"
-                        render={(match) => {
-                            return <PatientDetails />
+                        render={({ match }) => {
+                            return <PatientDetails id={match.params.id} />
                         }}
                     ></Route>
                 </Switch>
@@ -119,12 +117,7 @@ const App = () => {
                 <footer>
                     <NavUnlisted>
                         {footerlinks.map((link, index) => (
-                            <NavLink
-                                key={index}
-                                to={link.path}
-                                exact
-                                activeClassName="current"
-                            >
+                            <NavLink key={index} to={link.path} exact activeClassName="current">
                                 <li>{link.name}</li>
                             </NavLink>
                         ))}

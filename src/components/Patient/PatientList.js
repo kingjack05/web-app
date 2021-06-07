@@ -14,18 +14,10 @@ export class PatientList extends Component {
     }
     renderPatientList = () => {
         return this.props.patient.patients.map((element) => {
-            const {
-                _id,
-                age,
-                sex,
-                presentDiagnosis,
-                shortSummary,
-                title,
-            } = element
+            const { _id, age, sex, presentDiagnosis, shortSummary, title } = element
             return (
-                <div>
+                <div key={_id}>
                     <Patient
-                        key={_id}
                         id={_id}
                         age={age}
                         sex={sex}
@@ -40,9 +32,7 @@ export class PatientList extends Component {
     render() {
         return (
             <div>
-                <button onClick={this.props.openCreateNewPatientModal}>
-                    Add new patient
-                </button>
+                <button onClick={this.props.openCreateNewPatientModal}>Add new patient</button>
                 <CreateNewPatientModal />
                 Patient List
                 {this.renderPatientList()}

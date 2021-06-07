@@ -1,66 +1,57 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import Downshift from "downshift"
+import styled from "styled-components"
 
-import { searchDiagnosisAutocomple } from "../actions/search"
+import { searchDiagnosisAutocomplete } from "../../actions/search"
+
+const Dropdown = styled.ul`
+    height: auto;
+    max-height: 8rem;
+    overflow-x: hidden;
+`
 
 export class DiagnosisAutocomplete extends Component {
-    handleonChange = () => {}
+    handleonChange = (selectedItem) => {
+        this.props.onChange(selectedItem._id)
+    }
     handleonInput = (event) => {
         if (event.target.value.length >= 4) {
-            this.props.searchDiagnosisAutocomple(event.target.value)
+            this.props.searchDiagnosisAutocomplete(event.target.value)
         }
     }
     render() {
         return (
             <div>
-                <Downshift onChange={this.handleonChange}>
-                    {({
-                        getInputProps,
-                        getItemProps,
-                        getMenuProps,
-                        isOpen,
-                        highlightedIndex,
-                        getRootProps,
-                    }) => (
+                <Downshift onChange={this.handleonChange} itemToString={(item) => (item ? item.name : "")}>
+                    {({ getInputProps, getItemProps, getMenuProps, isOpen, highlightedIndex, getRootProps }) => (
                         <div>
-                            <div
-                                style={{ display: "inline-block" }}
-                                {...getRootProps(
-                                    {},
-                                    { suppressRefError: true }
-                                )}
-                            >
+                            <div style={{ display: "inline-block" }} {...getRootProps({}, { suppressRefError: true })}>
                                 <input
                                     {...getInputProps({
                                         onInput: this.handleonInput,
                                     })}
                                 />
                             </div>
-                            <ul {...getMenuProps()}>
+                            <Dropdown {...getMenuProps()}>
                                 {isOpen
-                                    ? this.props.search.searchDiagnosisAutocompleteResult.map(
-                                          (item, index) => (
-                                              <li
-                                                  {...getItemProps({
-                                                      key: item._id,
-                                                      index,
-                                                      item,
-                                                      style: {
-                                                          backgroundColor:
-                                                              highlightedIndex ===
-                                                              index
-                                                                  ? "lightgray"
-                                                                  : "white",
-                                                      },
-                                                  })}
-                                              >
-                                                  {item.name}
-                                              </li>
-                                          )
-                                      )
+                                    ? this.props.search.searchDiagnosisAutocompleteResult.map((item, index) => (
+                                          <li
+                                              {...getItemProps({
+                                                  key: item._id,
+                                                  index,
+                                                  item,
+                                                  style: {
+                                                      backgroundColor:
+                                                          highlightedIndex === index ? "lightgray" : "white",
+                                                  },
+                                              })}
+                                          >
+                                              {item.name}
+                                          </li>
+                                      ))
                                     : null}
-                            </ul>
+                            </Dropdown>
                         </div>
                     )}
                 </Downshift>
@@ -71,9 +62,6 @@ export class DiagnosisAutocomplete extends Component {
 
 const mapStateToProps = (state) => ({ search: state.search })
 
-const mapDispatchToProps = { searchDiagnosisAutocomple }
+const mapDispatchToProps = { searchDiagnosisAutocomplete }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(DiagnosisAutocomplete)
+export default connect(mapStateToProps, mapDispatchToProps)(DiagnosisAutocomplete)

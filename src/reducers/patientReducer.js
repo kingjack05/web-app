@@ -1,11 +1,13 @@
 import {
     CREATE_NEW_PATIENT,
     READ_PATIENT_LIST,
+    READ_PATIENT_DATA,
     UPDATE_PATIENT_DATA,
     DELETE_PATIENT_DATA,
 } from "../actiontypes"
 
 const INTIAL_STATE = {
+    patientData: null,
     patients: [],
     readPatients: false,
 }
@@ -24,6 +26,8 @@ const patientReducer = (state = INTIAL_STATE, action) => {
             } else {
                 return state
             }
+        case READ_PATIENT_DATA:
+            return { ...state, patientData: action.payload.data }
         case UPDATE_PATIENT_DATA:
             return state
         case DELETE_PATIENT_DATA:

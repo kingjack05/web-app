@@ -46,19 +46,13 @@ export class StandardBlock extends Component {
                                         <div>
                                             <BlockTitle
                                                 name={props.input.name}
-                                                onChange={(event) =>
-                                                    props.input.onChange(
-                                                        event.target.value
-                                                    )
-                                                }
+                                                onChange={(event) => props.input.onChange(event.target.value)}
+                                                placeholder="Block name"
                                             />
                                         </div>
                                     )}
                                 </Field>
-                                <button
-                                    type="button"
-                                    onClick={() => push("content", undefined)}
-                                >
+                                <button type="button" onClick={() => push("content", undefined)}>
                                     Add datapoint
                                 </button>
                                 <FieldArray name="content">
@@ -68,14 +62,10 @@ export class StandardBlock extends Component {
                                                 <label>#{index + 1}</label>
                                                 <Field
                                                     name={name + ".field"}
-                                                    component={
-                                                        DatapointAutocompleteAdapter
-                                                    }
+                                                    component={DatapointAutocompleteAdapter}
                                                 />
                                                 <span
-                                                    onClick={() =>
-                                                        fields.remove(index)
-                                                    }
+                                                    onClick={() => fields.remove(index)}
                                                     style={{
                                                         cursor: "pointer",
                                                     }}
