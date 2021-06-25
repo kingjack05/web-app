@@ -2,13 +2,20 @@ import React from "react"
 import { Router, Route, Switch, Link, NavLink } from "react-router-dom"
 
 import history from "../history"
+//Components
 import Mainpage from "./Mainpage"
 import SignIn from "./SignIn"
+import SignUp from "./SignUp"
 import Test from "./Test"
 import PatientDetails from "./Patient/PatientDetails"
 import MyModules from "./Module/MyModules"
 import ModuleDetails from "./Module/ModuleDetails"
 import CreateModule from "./Module/Create"
+import Settings from "./Settings/Settings"
+import RequestAdminRights from "./Settings/RequestAdminRights"
+import BrowseDatapoint from "./Browse/BrowseDatapoint"
+import DatapointDetails from "./Browse/DatapointDetails"
+
 import styled from "styled-components"
 
 const Wrapper = styled.div`
@@ -74,10 +81,24 @@ const App = () => {
                             </NavLink>
                         ))}
                         <li>
+                            <Link to="/browse">Browse</Link>
+                            <ul>
+                                <li>
+                                    <Link to="/browse/datapoint">Datapoint</Link>
+                                </li>
+                                <li>
+                                    <Link to="/browse/diagnosis">Diagnosis</Link>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
                             <Link to="/myModules">Modules</Link>
                             <ul>
                                 <li>
                                     <Link to="/createModule">New</Link>
+                                </li>
+                                <li>
+                                    <Link to="/test">Test</Link>
                                 </li>
                             </ul>
                         </li>
@@ -97,13 +118,28 @@ const App = () => {
                     <Route path="/test">
                         <Test />
                     </Route>
+                    <Route path="/requestadminrights">
+                        <RequestAdminRights />
+                    </Route>
+                    <Route path="/settings">
+                        <Settings />
+                    </Route>
                     <Route path="/signIn">
                         <SignIn />
                     </Route>
+                    <Route path="/signUp">
+                        <SignUp />
+                    </Route>
                     <Route
-                        path="/module/:id"
+                        path="/module/:public/:category/:id"
                         render={({ match }) => {
-                            return <ModuleDetails id={match.params.id} />
+                            return (
+                                <ModuleDetails
+                                    id={match.params.id}
+                                    category={match.params.category}
+                                    public={match.params.public}
+                                />
+                            )
                         }}
                     ></Route>
                     <Route
@@ -112,6 +148,15 @@ const App = () => {
                             return <PatientDetails id={match.params.id} />
                         }}
                     ></Route>
+                    <Route
+                        path="/browse/datapoint/:id"
+                        render={({ match }) => {
+                            return <DatapointDetails id={match.params.id} />
+                        }}
+                    />
+                    <Route path="/browse/datapoint">
+                        <BrowseDatapoint />
+                    </Route>
                 </Switch>
 
                 <footer>

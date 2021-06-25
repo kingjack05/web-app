@@ -9,6 +9,7 @@ import {
 } from "../actiontypes"
 
 const INITIAL_STATE = {
+    availableDatapoints: [],
     moduleData: null,
     modules: [],
     moduleListState: {
@@ -22,7 +23,17 @@ const moduleReducer = (state = INITIAL_STATE, action) => {
         case CREATE_NEW_PUBLIC_MODULE:
             return state
         case READ_MODULE:
-            return { ...state, moduleData: action.payload.data }
+            let moduleDatapoints = []
+            action.payload.data.content.forEach((element) => {
+                element.content.forEach((element) => {
+                    moduleDatapoints.push(element.field)
+                })
+            })
+            return {
+                ...state,
+                moduleData: action.payload.data,
+                availableDatapoints: moduleDatapoints,
+            }
         case GET_MY_MODULES:
             if (action.payload.status === 200) {
                 return {

@@ -14,6 +14,7 @@ const BlockWrapper = styled.div``
 const StandardBlockAdapter = ({ input }) => {
     return <StandardBlock onChange={input.onChange} />
 }
+
 export class Create extends Component {
     handleonSubmit = async (formValues) => {
         await this.props.createNewPublicModule(formValues)
@@ -48,13 +49,20 @@ export class Create extends Component {
                                     {({ fields }) =>
                                         fields.map((name, index) => (
                                             <BlockWrapper key={index}>
-                                                <Field name={name} component={StandardBlockAdapter} />
+                                                <Field
+                                                    name={name}
+                                                    component={StandardBlockAdapter}
+                                                />
                                             </BlockWrapper>
                                         ))
                                     }
                                 </FieldArray>
                                 <pre>{JSON.stringify(values, 0, 2)}</pre>
-                                <button type="submit" onClick={handleSubmit} disabled={submitting || pristine}>
+                                <button
+                                    type="submit"
+                                    onClick={handleSubmit}
+                                    disabled={submitting || pristine}
+                                >
                                     {submitting ? "Submitting" : "Save"}
                                 </button>
                             </div>

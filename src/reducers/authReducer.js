@@ -3,6 +3,7 @@ import { SIGN_UP, SIGN_IN, SIGN_OUT } from "../actiontypes"
 const INTIAL_STATE = {
     isSignedIn: null,
     userId: null,
+    userData: null,
     token: null,
     authConfig: null,
 }
@@ -14,6 +15,7 @@ const authReducer = (state = INTIAL_STATE, action) => {
                 ...state,
                 isSignedIn: true,
                 userId: action.payload.data.user._id,
+                userData: action.payload.data.user,
                 token: action.payload.data.token,
                 authConfig: {
                     headers: {
@@ -26,6 +28,7 @@ const authReducer = (state = INTIAL_STATE, action) => {
                 ...state,
                 isSignedIn: true,
                 userId: action.payload.data.user._id,
+                userData: action.payload.data.user,
                 token: action.payload.data.token,
                 authConfig: {
                     headers: {
@@ -38,6 +41,7 @@ const authReducer = (state = INTIAL_STATE, action) => {
                 ...state,
                 isSignedIn: false,
                 userId: null,
+                userData: null,
                 token: null,
                 authConfig: null,
             }

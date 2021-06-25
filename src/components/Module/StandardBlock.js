@@ -7,16 +7,38 @@ import { FieldArray } from "react-final-form-arrays"
 
 import DatapointAutocomplete from "../Search/DatapointAutocompleteCombobox"
 
-const BlockTitle = styled.input``
+import { ChevronUp, ChevronDown } from "@styled-icons/boxicons-regular"
+
+const BlockTitle = styled.input`
+    border: 0px;
+`
+const BlockTitleWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+    border: solid;
+`
+const BlockDetails = styled.div`
+    display: ${(props) => (props.show ? "block" : "none")};
+    border: solid;
+`
 const DatapointWrapper = styled.div`
     display: flex;
     justify-content: space-between;
+`
+const BorderedWrapper = styled.div`
+    border: solid;
 `
 const DatapointAutocompleteAdapter = ({ input }) => {
     return <DatapointAutocomplete onChange={input.onChange} />
 }
 
 export class StandardBlock extends Component {
+    state = {
+        show: false,
+    }
+    onToggle = () => {
+        this.setState({ show: !this.state.show })
+    }
     handleonSubmit = (formValues) => {
         this.props.onChange(formValues)
         console.log(formValues)
@@ -41,44 +63,90 @@ export class StandardBlock extends Component {
                     }) => {
                         return (
                             <div>
-                                <Field name="name">
+                                <Field name="title">
                                     {(props) => (
-                                        <div>
+                                        <BlockTitleWrapper>
                                             <BlockTitle
                                                 name={props.input.name}
-                                                onChange={(event) => props.input.onChange(event.target.value)}
+                                                onChange={(event) =>
+                                                    props.input.onChange(event.target.value)
+                                                }
                                                 placeholder="Block name"
+                                                pristine={pristine}
                                             />
-                                        </div>
+                                            {this.state.show ? (
+                                                <ChevronUp size="24" onClick={this.onToggle} />
+                                            ) : (
+                                                <ChevronDown size="24" onClick={this.onToggle} />
+                                            )}
+                                        </BlockTitleWrapper>
                                     )}
                                 </Field>
-                                <button type="button" onClick={() => push("content", undefined)}>
-                                    Add datapoint
-                                </button>
-                                <FieldArray name="content">
-                                    {({ fields }) =>
-                                        fields.map((name, index) => (
-                                            <DatapointWrapper key={index}>
-                                                <label>#{index + 1}</label>
-                                                <Field
-                                                    name={name + ".field"}
-                                                    component={DatapointAutocompleteAdapter}
-                                                />
-                                                <span
-                                                    onClick={() => fields.remove(index)}
-                                                    style={{
-                                                        cursor: "pointer",
-                                                    }}
-                                                >
-                                                    ❌
-                                                </span>
-                                            </DatapointWrapper>
-                                        ))
-                                    }
-                                </FieldArray>
-                                <button type="submit" onClick={handleSubmit}>
-                                    Save
-                                </button>
+                                <BlockDetails show={this.state.show}>
+                                    <BorderedWrapper>
+                                        <button
+                                            type="button"
+                                            onClick={() => push("content", undefined)}
+                                        >
+                                            Add datapoint
+                                        </button>
+                                        <FieldArray name="content">
+                                            {({ fields }) =>
+                                                fields.map((name, index) => (
+                                                    <DatapointWrapper key={index}>
+                                                        <label>#{index + 1}</label>
+                                                        <Field
+                                                            name={name + ".field"}
+                                                            component={DatapointAutocompleteAdapter}
+                                                        />
+                                                        <span
+                                                            onClick={() => fields.remove(index)}
+                                                            style={{
+                                                                cursor: "pointer",
+                                                            }}
+                                                        >
+                                                            ❌
+                                                        </span>
+                                                    </DatapointWrapper>
+                                                ))
+                                            }
+                                        </FieldArray>
+                                    </BorderedWrapper>
+                                    <BorderedWrapper>
+                                        <button
+                                            type="button"
+                                            onClick={() => push("customFields", undefined)}
+                                        >
+                                            Add custom field
+                                        </button>
+                                        <FieldArray name="customFields">
+                                            {({ fields }) =>
+                                                fields.map((name, index) => (
+                                                    <DatapointWrapper key={index}>
+                                                        <label>#{index + 1}</label>
+                                                        <Field
+                                                            name={name}
+                                                            component="input"
+                                                            type="text"
+                                                            placeholder="Field name"
+                                                        />
+                                                        <span
+                                                            onClick={() => fields.remove(index)}
+                                                            style={{
+                                                                cursor: "pointer",
+                                                            }}
+                                                        >
+                                                            ❌
+                                                        </span>
+                                                    </DatapointWrapper>
+                                                ))
+                                            }
+                                        </FieldArray>
+                                    </BorderedWrapper>
+                                    <button type="submit" onClick={handleSubmit}>
+                                        Save block
+                                    </button>
+                                </BlockDetails>
                             </div>
                         )
                     }}

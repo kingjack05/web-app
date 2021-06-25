@@ -20,12 +20,11 @@ export const createNewPublicModule = (formValues) => async (dispatch, getState) 
 }
 
 export const readModule = (config) => async (dispatch, getState) => {
-    let response
     if (config.public && config.category === "Standard") {
-        response = await api.get(`publicStandardModule/${config.params.id}`)
-    }
+        const response = await api.get(`publicStandardModule/${config.id}`)
 
-    dispatch({ type: READ_MODULE, payload: response })
+        dispatch({ type: READ_MODULE, payload: response })
+    }
 }
 //Get my modules
 export const getMyModules = (config) => async (dispatch, getState) => {
@@ -37,14 +36,20 @@ export const getMyModules = (config) => async (dispatch, getState) => {
     dispatch({ type: GET_MY_MODULES, payload: response })
 }
 
-export const updateModule = () => async (dispatch, getState) => {
-    let response
-
+export const updateModule = (formValues, config) => async (dispatch, getState) => {
+    const response = await api.post(
+        `/users/me/module/${config.category}/${config.id}`,
+        formValues,
+        getState().auth.authConfig
+    )
     dispatch({ type: UPDATE_MODULE, payload: response })
 }
 
 export const deleteModule = (config) => async (dispatch, getState) => {
-    const response = await api.delete(`/users/me/module/${config.category}/${config.id}`, getState().auth.authConfig)
+    const response = await api.delete(
+        `/users/me/module/${config.category}/${config.id}`,
+        getState().auth.authConfig
+    )
 
     dispatch({ type: DELETE_MODULE, payload: response })
 }

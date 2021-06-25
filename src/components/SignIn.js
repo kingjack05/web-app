@@ -2,7 +2,10 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import { Form, Field } from "react-final-form"
 
+import history from "../history"
+// Actions
 import { signIn } from "../actions/user"
+// Components
 import styled from "styled-components"
 
 const Wrapper = styled.div`
@@ -11,6 +14,10 @@ const Wrapper = styled.div`
     justify-content: center;
     width: 100%;
     height: 100%;
+`
+const ButtonWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
 `
 const Centered = styled.div`
     border: medium solid grey;
@@ -32,12 +39,7 @@ export class SignIn extends Component {
                                 <div>
                                     <label>Email</label>
                                     <br />
-                                    <Field
-                                        name="email"
-                                        component="input"
-                                        type="email"
-                                        placeholder="Email"
-                                    ></Field>
+                                    <Field name="email" component="input" type="email" placeholder="Email"></Field>
                                 </div>
                                 <div>
                                     <label>Password</label>
@@ -49,14 +51,18 @@ export class SignIn extends Component {
                                         placeholder="Password"
                                     ></Field>
                                 </div>
-                                <div>
-                                    <button
-                                        type="submit"
-                                        disabled={submitting || pristine}
-                                    >
+                                <ButtonWrapper>
+                                    <button type="submit" disabled={submitting || pristine}>
                                         Sign In
                                     </button>
-                                </div>
+                                    <button
+                                        onClick={() => {
+                                            history.push("/signUp")
+                                        }}
+                                    >
+                                        Sign Up
+                                    </button>
+                                </ButtonWrapper>
                             </form>
                         )}
                     </Form>
