@@ -8,10 +8,14 @@ import styled from "styled-components"
 import { readModule, updateModule } from "../../actions/module"
 
 import StandardBlock from "./StandardBlock"
+import ExportsWrapper from "./ExportsWrapper"
 
-const BlockWrapper = styled.div``
+const Wrapper = styled.div``
 const StandardBlockAdapter = ({ input }) => {
     return <StandardBlock value={input.value} onChange={input.onChange} />
+}
+const ExportsWrapperAdapter = ({ input }) => {
+    return <ExportsWrapper value={input.value} onChange={input.onChange} />
 }
 
 export class ModuleDetails extends Component {
@@ -52,16 +56,31 @@ export class ModuleDetails extends Component {
                                 <FieldArray name="content">
                                     {({ fields }) =>
                                         fields.map((name, index) => (
-                                            <BlockWrapper key={index}>
+                                            <Wrapper key={index}>
                                                 <Field
                                                     name={name}
                                                     component={StandardBlockAdapter}
                                                 />
-                                            </BlockWrapper>
+                                            </Wrapper>
                                         ))
                                     }
                                 </FieldArray>
-                                <pre>{JSON.stringify(values, 0, 2)}</pre>
+                                <button type="button" onClick={() => push("exports", undefined)}>
+                                    Add exports
+                                </button>
+                                <FieldArray name="exports">
+                                    {({ fields }) =>
+                                        fields.map((name, index) => (
+                                            <Wrapper key={index}>
+                                                <Field
+                                                    name={name}
+                                                    component={ExportsWrapperAdapter}
+                                                />
+                                            </Wrapper>
+                                        ))
+                                    }
+                                </FieldArray>
+                                {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
                                 <button
                                     type="submit"
                                     onClick={handleSubmit}

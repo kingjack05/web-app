@@ -3,10 +3,7 @@ import { connect } from "react-redux"
 import Modal from "styled-react-modal"
 import { Form, Field } from "react-final-form"
 
-import {
-    openCreateNewPatientModal,
-    closeCreateNewPatientModal,
-} from "../../actions/modal"
+import { openCreateNewPatientModal, closeCreateNewPatientModal } from "../../actions/modal"
 import { createNewPatient, readPatientList } from "../../actions/patient"
 
 const StyledModal = Modal.styled`
@@ -47,29 +44,18 @@ export class CreateNewPatientModal extends Component {
                                 </div>
                                 <div>
                                     <label>Age</label>
-                                    <Field
-                                        name="age"
-                                        component="input"
-                                        type="number"
-                                    ></Field>
+                                    <Field name="age" component="input" type="number"></Field>
                                 </div>
                                 <div>
                                     <label>Sex</label>
-                                    <Field
-                                        name="sex"
-                                        component="select"
-                                        initialValue="true"
-                                    >
-                                        <option value="true">Male</option>
-                                        <option value="false">Female</option>
+                                    <Field name="sex" component="select" initialValue="Male">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
                                     </Field>
                                 </div>
                                 <div>
                                     <label>Short Summary</label>
-                                    <Field
-                                        name="shortSummary"
-                                        component="textarea"
-                                    ></Field>
+                                    <Field name="shortSummary" component="textarea"></Field>
                                 </div>
                                 <div>
                                     <label>Present Diagnosis</label>
@@ -80,10 +66,7 @@ export class CreateNewPatientModal extends Component {
                                     ></Field>
                                 </div>
                                 <div>
-                                    <button
-                                        type="submit"
-                                        disabled={submitting || pristine}
-                                    >
+                                    <button type="submit" disabled={submitting || pristine}>
                                         Add Patient
                                     </button>
                                 </div>
@@ -105,7 +88,4 @@ const mapDispatchToProps = {
     readPatientList,
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(CreateNewPatientModal)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateNewPatientModal)

@@ -68,7 +68,12 @@ export class PatientDetails extends Component {
                                 {" "}
                                 <InputWrapper>
                                     <label>Title: </label>
-                                    <Field name="title" component="input" type="text" placeholder="Title"></Field>
+                                    <Field
+                                        name="title"
+                                        component="input"
+                                        type="text"
+                                        placeholder="Title"
+                                    ></Field>
                                 </InputWrapper>
                                 <InputWrapper>
                                     <label>Age: </label>
@@ -77,8 +82,8 @@ export class PatientDetails extends Component {
                                 <div>
                                     <label>Sex</label>
                                     <Field name="sex" component="select">
-                                        <option value="true">Male</option>
-                                        <option value="false">Female</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
                                     </Field>
                                 </div>
                                 <div>
@@ -88,7 +93,10 @@ export class PatientDetails extends Component {
                                 </div>
                                 <div>
                                     <label>Present Diagnosis</label>
-                                    <button type="button" onClick={() => push("presentDiagnosis", undefined)}>
+                                    <button
+                                        type="button"
+                                        onClick={() => push("presentDiagnosis", undefined)}
+                                    >
                                         Add Diagnosis
                                     </button>
                                     <FieldArray name="presentDiagnosis">

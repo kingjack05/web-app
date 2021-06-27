@@ -26,6 +26,9 @@ const moduleReducer = (state = INITIAL_STATE, action) => {
         case READ_MODULE:
             let moduleDatapoints = []
             action.payload.data.content.forEach((element) => {
+                element.customFields.forEach((element) => {
+                    moduleDatapoints.push({ datapointType: "String", name: element })
+                })
                 element.content.forEach((element) => {
                     moduleDatapoints.push(element.field)
                 })
