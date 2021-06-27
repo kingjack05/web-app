@@ -11,19 +11,18 @@ import StandardBlock from "./StandardBlock"
 
 const BlockWrapper = styled.div``
 const StandardBlockAdapter = ({ input }) => {
-    return <StandardBlock onChange={input.onChange} />
+    return <StandardBlock value={input.value} onChange={input.onChange} />
 }
 
 export class ModuleDetails extends Component {
     handleonSubmit = async (formValues) => {
         await this.props.updateModule(formValues, {
-            category: this.props.category,
+            category: this.props.public + this.props.category,
             id: this.props.id,
         })
     }
     componentDidMount() {
         this.props.readModule({ ...this.props.module.moduleListState, id: this.props.id })
-        console.log(this.props)
     }
     render() {
         return (

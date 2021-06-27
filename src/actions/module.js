@@ -37,6 +37,7 @@ export const getMyModules = (config) => async (dispatch, getState) => {
 }
 
 export const updateModule = (formValues, config) => async (dispatch, getState) => {
+    console.log("Triggered")
     const response = await api.post(
         `/users/me/module/${config.category}/${config.id}`,
         formValues,

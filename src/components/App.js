@@ -15,6 +15,7 @@ import Settings from "./Settings/Settings"
 import RequestAdminRights from "./Settings/RequestAdminRights"
 import BrowseDatapoint from "./Browse/BrowseDatapoint"
 import DatapointDetails from "./Browse/DatapointDetails"
+import CreateDatapoint from "./Admin/CreateDatapoint"
 
 import styled from "styled-components"
 
@@ -65,7 +66,10 @@ const NavUnlisted = styled.ul`
     }
 `
 
-const headerlinks = [{ name: "Home", path: "/" }]
+const headerlinks = [
+    { name: "Home", path: "/" },
+    { name: "Settings", path: "/settings" },
+]
 const footerlinks = [{ name: "About", path: "/about" }]
 
 const App = () => {
@@ -106,29 +110,24 @@ const App = () => {
                 </header>
 
                 <Switch>
+                    {/* Routes ordered alphabetically */}
                     <Route path="/" exact>
                         <Mainpage />
                     </Route>
+                    <Route path="/admin/create/datapoint">
+                        <CreateDatapoint />
+                    </Route>
+                    <Route
+                        path="/browse/datapoint/:id"
+                        render={({ match }) => {
+                            return <DatapointDetails id={match.params.id} />
+                        }}
+                    />
+                    <Route path="/browse/datapoint">
+                        <BrowseDatapoint />
+                    </Route>
                     <Route path="/createModule">
                         <CreateModule />
-                    </Route>
-                    <Route path="/myModules">
-                        <MyModules />
-                    </Route>
-                    <Route path="/test">
-                        <Test />
-                    </Route>
-                    <Route path="/requestadminrights">
-                        <RequestAdminRights />
-                    </Route>
-                    <Route path="/settings">
-                        <Settings />
-                    </Route>
-                    <Route path="/signIn">
-                        <SignIn />
-                    </Route>
-                    <Route path="/signUp">
-                        <SignUp />
                     </Route>
                     <Route
                         path="/module/:public/:category/:id"
@@ -142,20 +141,29 @@ const App = () => {
                             )
                         }}
                     ></Route>
+                    <Route path="/myModules">
+                        <MyModules />
+                    </Route>
                     <Route
                         path="/patient/:id"
                         render={({ match }) => {
                             return <PatientDetails id={match.params.id} />
                         }}
                     ></Route>
-                    <Route
-                        path="/browse/datapoint/:id"
-                        render={({ match }) => {
-                            return <DatapointDetails id={match.params.id} />
-                        }}
-                    />
-                    <Route path="/browse/datapoint">
-                        <BrowseDatapoint />
+                    <Route path="/requestadminrights">
+                        <RequestAdminRights />
+                    </Route>
+                    <Route path="/settings">
+                        <Settings />
+                    </Route>
+                    <Route path="/signIn">
+                        <SignIn />
+                    </Route>
+                    <Route path="/signUp">
+                        <SignUp />
+                    </Route>
+                    <Route path="/test">
+                        <Test />
                     </Route>
                 </Switch>
 

@@ -29,10 +29,10 @@ export class SchemaToForm extends Component {
                                         : "disabled"
                                 }
                             >
-                                {this.props.schema.map((element) => {
+                                {this.props.schema.map((element, index) => {
                                     if (element.data.type === "String") {
                                         return (
-                                            <div key={element.fieldname}>
+                                            <div key={index}>
                                                 <label>{element.fieldname}</label>
                                                 <Field
                                                     name={element.fieldname}
@@ -49,7 +49,9 @@ export class SchemaToForm extends Component {
                                                 <Field name={element.fieldname} component="select">
                                                     <option />
                                                     {element.data.enum.map((element) => (
-                                                        <option value={element}>{element}</option>
+                                                        <option key={element} value={element}>
+                                                            {element}
+                                                        </option>
                                                     ))}
                                                 </Field>
                                             </div>

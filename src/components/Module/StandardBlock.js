@@ -29,7 +29,7 @@ const BorderedWrapper = styled.div`
     border: solid;
 `
 const DatapointAutocompleteAdapter = ({ input }) => {
-    return <DatapointAutocomplete onChange={input.onChange} />
+    return <DatapointAutocomplete value={input.value} onChange={input.onChange} />
 }
 
 export class StandardBlock extends Component {
@@ -47,6 +47,8 @@ export class StandardBlock extends Component {
         return (
             <div>
                 <Form
+                    // accepts initial values from value props of adapter
+                    initialValues={this.props.value}
                     onSubmit={this.handleonSubmit}
                     mutators={{
                         ...arrayMutators,
@@ -68,6 +70,7 @@ export class StandardBlock extends Component {
                                         <BlockTitleWrapper>
                                             <BlockTitle
                                                 name={props.input.name}
+                                                value={values.title}
                                                 onChange={(event) =>
                                                     props.input.onChange(event.target.value)
                                                 }

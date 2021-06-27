@@ -11,6 +11,7 @@ import DatapointAutocomplete from "./Search/DatapointAutocompleteCombobox"
 import StandardBlock from "./Module/StandardBlock"
 import styled from "styled-components"
 import Switch from "@material-ui/core/Switch"
+import Tablist from "./Utilities/Tablist"
 
 const Wrapper = styled.div`
     display: flex;
@@ -27,6 +28,11 @@ const DatapointAutocompleteAdapter = ({ input }) => {
 const SwitchAdapter = ({ input: { onChange, value }, label, ...rest }) => (
     <Switch label={label} checked={!!value} onChange={onChange} {...rest} />
 )
+
+const tabs = [
+    { label: "Hi!", component: () => <div>Hi!</div> },
+    { label: "Test", component: () => <div>Test</div> },
+]
 
 export class Test extends Component {
     handleonSubmit = (formValues) => {
@@ -58,13 +64,19 @@ export class Test extends Component {
                                             <input
                                                 name={props.input.name}
                                                 onChange={(event) =>
-                                                    props.input.onChange(event.target.value.toUpperCase())
+                                                    props.input.onChange(
+                                                        event.target.value.toUpperCase()
+                                                    )
                                                 }
                                             />
                                         </div>
                                     )}
                                 </Field>
-                                <Field name="employed" label="Employed?" component={SwitchAdapter} />
+                                <Field
+                                    name="employed"
+                                    label="Employed?"
+                                    component={SwitchAdapter}
+                                />
                                 <button type="button" onClick={() => push("datapoint", undefined)}>
                                     Add datapoint
                                 </button>
@@ -107,6 +119,7 @@ export class Test extends Component {
                         )
                     }}
                 ></Form>
+                <Tablist tabs={tabs} />
             </div>
         )
     }

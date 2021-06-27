@@ -16,6 +16,7 @@ const INITIAL_STATE = {
         public: true,
         category: "Standard",
     },
+    updateResult: null,
 }
 
 const moduleReducer = (state = INITIAL_STATE, action) => {
@@ -44,7 +45,15 @@ const moduleReducer = (state = INITIAL_STATE, action) => {
                 return state
             }
         case UPDATE_MODULE:
-            return state
+            console.log(action.payload.data)
+            if (action.payload.status === 200) {
+                return {
+                    ...state,
+                    updateResult: "Successful update!",
+                }
+            } else {
+                return state
+            }
         case DELETE_MODULE:
             return state
         case TOGGLE_MODULE_LIST_STATE_PUBLIC_OR_PRIVATE:

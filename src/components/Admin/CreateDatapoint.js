@@ -41,13 +41,17 @@ export class CreateDatapoint extends Component {
     render() {
         return (
             <div>
-                <SchemaToForm schema={datapointSchema} onSubmit={this.onUpdate} />
+                {this.props.auth.userData.authorization === "Administrator" ? (
+                    <SchemaToForm schema={datapointSchema} onSubmit={this.onUpdate} />
+                ) : (
+                    "Access forbidden"
+                )}
             </div>
         )
     }
 }
 
-const mapStateToProps = (state) => ({})
+const mapStateToProps = (state) => ({ auth: state.auth })
 
 const mapDispatchToProps = {
     createDatapointData,

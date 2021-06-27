@@ -26,6 +26,8 @@ export class DatapointAutocomplete extends Component {
         return (
             <div>
                 <Downshift
+                    // initial value from adaptor's "value" prop
+                    initialSelectedItem={this.props.value}
                     onChange={this.handleonChange}
                     itemToString={(item) => (item ? item.name : "")}
                 >
@@ -40,10 +42,7 @@ export class DatapointAutocomplete extends Component {
                         <div>
                             <div
                                 style={{ display: "inline-block" }}
-                                {...getRootProps(
-                                    {},
-                                    { suppressRefError: true }
-                                )}
+                                {...getRootProps({}, { suppressRefError: true })}
                             >
                                 <input
                                     {...getInputProps({
@@ -62,8 +61,7 @@ export class DatapointAutocomplete extends Component {
                                                       item,
                                                       style: {
                                                           backgroundColor:
-                                                              highlightedIndex ===
-                                                              index
+                                                              highlightedIndex === index
                                                                   ? "lightgray"
                                                                   : "white",
                                                       },
@@ -87,7 +85,4 @@ const mapStateToProps = (state) => ({ search: state.search })
 
 const mapDispatchToProps = { searchDatapointAutocomplete }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(DatapointAutocomplete)
+export default connect(mapStateToProps, mapDispatchToProps)(DatapointAutocomplete)
