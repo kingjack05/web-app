@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import styled from "styled-components"
 
-//*Takes an array of [{label, component(render prop: please pass in a function)}] as props and renders accordingly
+//*Takes an array of [{label, component(render prop: pass in a function)}] as props and renders accordingly
 
 const TabContainers = styled.div`
     display: inline-flex;

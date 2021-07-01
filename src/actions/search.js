@@ -6,6 +6,7 @@ import {
     GET_DIAGNOSIS_DETAIL,
     GET_DATAPOINT_DETAIL,
     GET_DRUG_DETAIL,
+    SEARCH_PUBLIC_MODULE,
 } from "../actiontypes"
 
 export const searchDatapointAutocomplete = (formValues) => async (dispatch, getState) => {
@@ -48,4 +49,10 @@ export const getDrugDetail = (id) => async (dispatch, getState) => {
     const response = await api.get(`/drug/${id}`)
 
     dispatch({ type: GET_DRUG_DETAIL, payload: response })
+}
+
+export const searchPublicModule = (category, searchTerm) => async (dispatch, getState) => {
+    const response = await api.get("/search/modules", { params: { category, searchTerm } })
+
+    dispatch({ type: SEARCH_PUBLIC_MODULE, payload: response })
 }

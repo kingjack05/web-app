@@ -5,6 +5,7 @@ import {
     GET_DIAGNOSIS_DETAIL,
     GET_DATAPOINT_DETAIL,
     GET_DRUG_DETAIL,
+    SEARCH_PUBLIC_MODULE,
 } from "../actiontypes"
 
 const INITIAL_STATE = {
@@ -14,6 +15,7 @@ const INITIAL_STATE = {
     diagnosisDetail: null,
     datapointDetail: null,
     drugDetail: null,
+    searchPublicModuleResult: [],
 }
 
 const searchReducer = (state = INITIAL_STATE, action) => {
@@ -36,6 +38,8 @@ const searchReducer = (state = INITIAL_STATE, action) => {
             return { ...state, datapointDetail: action.payload.data }
         case GET_DRUG_DETAIL:
             return { ...state, drugDetail: action.payload.data }
+        case SEARCH_PUBLIC_MODULE:
+            return { ...state, searchPublicModuleResult: action.payload.data }
         default:
             return state
     }

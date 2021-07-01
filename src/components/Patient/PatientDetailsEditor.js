@@ -5,13 +5,16 @@ import styled from "styled-components"
 import arrayMutators from "final-form-arrays"
 import { FieldArray } from "react-final-form-arrays"
 
-import { openCreateNewPatientModal, closeCreateNewPatientModal } from "../../actions/modal"
-import { createNewPatient, readPatientList } from "../../actions/patient"
+import { readPatientData, updatePatientData } from "../../actions/patient"
 //Components
 import DaignosisAutocomplete from "../Search/DiagnosisAutocomplete"
 
-import StyledModal from "../Utilities/StyledModal"
-
+const EditContainer = styled.div``
+const InputWrapper = styled.div`
+    input {
+        border: 0px;
+    }
+`
 const DaignosisWrapper = styled.div`
     display: flex;
     justify-content: space-between;
@@ -20,22 +23,18 @@ const DaignosisAutocompleteAdapter = ({ input }) => {
     return <DaignosisAutocomplete onChange={input.onChange} />
 }
 
-export class CreateNewPatientModal extends Component {
-    submitCreateNewPatientForm = async (formValues) => {
-        await this.props.createNewPatient(formValues)
-        await this.props.readPatientList()
-        await this.props.closeCreateNewPatientModal()
+export class PatientDetailsEditor extends Component {
+    submitEditPatientForm = async (formValues) => {
+        await this.props.updatePatientData(formValues, this.props.id)
+        await this.props.readPatientData({ id: this.props.id })
     }
     render() {
         return (
             <div>
-                <StyledModal
-                    isOpen={this.props.modal.createNewPatientModalIsOpen}
-                    onBackgroundClick={this.props.closeCreateNewPatientModal}
-                    onEscapeKeydown={this.props.closeCreateNewPatientModal}
-                >
+                <EditContainer>
                     <Form
-                        onSubmit={this.submitCreateNewPatientForm}
+                        onSubmit={this.submitEditPatientForm}
+                        initialValues={this.props.patient.patientData}
                         mutators={{
                             ...arrayMutators,
                         }}
@@ -50,7 +49,7 @@ export class CreateNewPatientModal extends Component {
                         }) => (
                             <form onSubmit={handleSubmit}>
                                 {" "}
-                                <div>
+                                <InputWrapper>
                                     <label>Title: </label>
                                     <Field
                                         name="title"
@@ -58,20 +57,21 @@ export class CreateNewPatientModal extends Component {
                                         type="text"
                                         placeholder="Title"
                                     ></Field>
-                                </div>
-                                <div>
+                                </InputWrapper>
+                                <InputWrapper>
                                     <label>Age: </label>
                                     <Field name="age" component="input" type="number"></Field>
-                                </div>
+                                </InputWrapper>
                                 <div>
                                     <label>Sex: </label>
-                                    <Field name="sex" component="select" initialValue="Male">
+                                    <Field name="sex" component="select">
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
                                     </Field>
                                 </div>
                                 <div>
                                     <label>Short Summary: </label>
+                                    <br />
                                     <Field name="shortSummary" component="textarea"></Field>
                                 </div>
                                 <div>
@@ -106,25 +106,25 @@ export class CreateNewPatientModal extends Component {
                                 </div>
                                 <div>
                                     <button type="submit" disabled={submitting || pristine}>
-                                        Add Patient
+                                        Save
                                     </button>
                                 </div>
                             </form>
                         )}
                     </Form>
-                </StyledModal>
+                </EditContainer>
             </div>
         )
     }
 }
 
-const mapStateToProps = (state) => ({ modal: state.modal })
+const mapStateToProps = (state) => ({
+    patient: state.patient,
+})
 
 const mapDispatchToProps = {
-    openCreateNewPatientModal,
-    closeCreateNewPatientModal,
-    createNewPatient,
-    readPatientList,
+    readPatientData,
+    updatePatientData,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateNewPatientModal)
+export default connect(mapStateToProps, mapDispatchToProps)(PatientDetailsEditor)

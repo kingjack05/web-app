@@ -109,7 +109,6 @@ export class ExportsEditor extends Component {
         return "not-handled"
     }
     _insertExportsComponent = (label, meta) => {
-        console.log(label, meta)
         const editorState = this.state.editorState
         const currentContent = editorState.getCurrentContent()
         const selection = editorState.getSelection()

@@ -1,135 +1,29 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { Form, Field } from "react-final-form"
-import styled from "styled-components"
-import arrayMutators from "final-form-arrays"
-import { FieldArray } from "react-final-form-arrays"
 
 //Actions
 import { readPatientData, updatePatientData } from "../../actions/patient"
+import { openImportModuleModal } from "../../actions/modal"
 //Components
-import DaignosisAutocomplete from "../Search/DiagnosisAutocomplete"
-
-const EditContainer = styled.div`
-    display: ${(props) => (props.show ? "block" : "none")};
-`
-const InputWrapper = styled.div`
-    input {
-        border: 0px;
-    }
-`
-const DaignosisWrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-`
-const DaignosisAutocompleteAdapter = ({ input }) => {
-    return <DaignosisAutocomplete onChange={input.onChange} />
-}
+import Tablist from "../Utilities/Tablist"
+import PatientDetailsEditor from "./PatientDetailsEditor"
+import NotesList from "./NotesList"
 
 export class PatientDetails extends Component {
-    state = {
-        toggleEdit: false,
-    }
-    submitEditPatientForm = async (formValues) => {
-        await this.props.updatePatientData(formValues, this.props.id)
-        await this.props.readPatientData({ id: this.props.id })
-        this.setState({ toggleEdit: !this.state.toggleEdit })
-    }
     componentDidMount() {
         this.props.readPatientData({ id: this.props.id })
     }
+    tabs = [
+        { label: "Patient Data", component: () => <PatientDetailsEditor id={this.props.id} /> },
+        {
+            label: "Notes",
+            component: () => <NotesList patientID={this.props.id} />,
+        },
+    ]
     render() {
         return (
             <div>
-                <button
-                    onClick={() => {
-                        this.setState({ toggleEdit: !this.state.toggleEdit })
-                    }}
-                >
-                    Edit
-                </button>
-                <EditContainer show={this.state.toggleEdit}>
-                    <Form
-                        onSubmit={this.submitEditPatientForm}
-                        initialValues={this.props.patient.patientData}
-                        mutators={{
-                            ...arrayMutators,
-                        }}
-                    >
-                        {({
-                            handleSubmit,
-                            submitting,
-                            pristine,
-                            form: {
-                                mutators: { push, pop },
-                            },
-                        }) => (
-                            <form onSubmit={handleSubmit}>
-                                {" "}
-                                <InputWrapper>
-                                    <label>Title: </label>
-                                    <Field
-                                        name="title"
-                                        component="input"
-                                        type="text"
-                                        placeholder="Title"
-                                    ></Field>
-                                </InputWrapper>
-                                <InputWrapper>
-                                    <label>Age: </label>
-                                    <Field name="age" component="input" type="number"></Field>
-                                </InputWrapper>
-                                <div>
-                                    <label>Sex</label>
-                                    <Field name="sex" component="select">
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </Field>
-                                </div>
-                                <div>
-                                    <label>Short Summary</label>
-                                    <br />
-                                    <Field name="shortSummary" component="textarea"></Field>
-                                </div>
-                                <div>
-                                    <label>Present Diagnosis</label>
-                                    <button
-                                        type="button"
-                                        onClick={() => push("presentDiagnosis", undefined)}
-                                    >
-                                        Add Diagnosis
-                                    </button>
-                                    <FieldArray name="presentDiagnosis">
-                                        {({ fields }) =>
-                                            fields.map((name, index) => (
-                                                <DaignosisWrapper key={index}>
-                                                    <label>#{index + 1}</label>
-                                                    <Field
-                                                        name={name + ".field"}
-                                                        component={DaignosisAutocompleteAdapter}
-                                                    />
-                                                    <span
-                                                        onClick={() => fields.remove(index)}
-                                                        style={{
-                                                            cursor: "pointer",
-                                                        }}
-                                                    >
-                                                        ❌
-                                                    </span>
-                                                </DaignosisWrapper>
-                                            ))
-                                        }
-                                    </FieldArray>
-                                </div>
-                                <div>
-                                    <button type="submit" disabled={submitting || pristine}>
-                                        Save
-                                    </button>
-                                </div>
-                            </form>
-                        )}
-                    </Form>
-                </EditContainer>
+                <Tablist tabs={this.tabs} />
             </div>
         )
     }
@@ -137,6 +31,6 @@ export class PatientDetails extends Component {
 
 const mapStateToProps = (state) => ({ patient: state.patient })
 
-const mapDispatchToProps = { readPatientData, updatePatientData }
+const mapDispatchToProps = { readPatientData, updatePatientData, openImportModuleModal }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PatientDetails)

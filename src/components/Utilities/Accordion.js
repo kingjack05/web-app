@@ -1,6 +1,6 @@
 import React, { Component } from "react"
-import { connect } from "react-redux"
 import styled from "styled-components"
+import { ChevronUp, ChevronDown } from "@styled-icons/boxicons-regular"
 
 const Summary = styled.div`
     display: flex;
@@ -25,13 +25,9 @@ export class Accordion extends Component {
                 <Summary>
                     <span>{this.props.summary}</span>
                     {this.state.show ? (
-                        <span class="material-icons-outlined" onClick={this.onToggle}>
-                            expand_less
-                        </span>
+                        <ChevronUp size="24" onClick={this.onToggle} />
                     ) : (
-                        <span class="material-icons-outlined" onClick={this.onToggle}>
-                            expand_more
-                        </span>
+                        <ChevronDown size="24" onClick={this.onToggle} />
                     )}
                 </Summary>
                 <Details show={this.state.show}>{this.props.children}</Details>
@@ -40,8 +36,4 @@ export class Accordion extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({})
-
-const mapDispatchToProps = {}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Accordion)
+export default Accordion

@@ -3,19 +3,21 @@ import { Router, Route, Switch, Link, NavLink } from "react-router-dom"
 
 import history from "../history"
 //Components
+import BrowseDatapoint from "./Browse/BrowseDatapoint"
+import CreateDatapoint from "./Admin/CreateDatapoint"
+import CreateModule from "./Module/Create"
+import DatapointDetails from "./Browse/DatapointDetails"
 import Mainpage from "./Mainpage"
+import ModuleDetails from "./Module/ModuleDetails"
+import MyModules from "./Module/MyModules"
+import NoteDetails from "./Patient/NoteDetails"
+import PatientDetails from "./Patient/PatientDetails"
+import RequestAdminRights from "./Settings/RequestAdminRights"
+import Settings from "./Settings/Settings"
 import SignIn from "./SignIn"
 import SignUp from "./SignUp"
 import Test from "./Test"
-import PatientDetails from "./Patient/PatientDetails"
-import MyModules from "./Module/MyModules"
-import ModuleDetails from "./Module/ModuleDetails"
-import CreateModule from "./Module/Create"
-import Settings from "./Settings/Settings"
-import RequestAdminRights from "./Settings/RequestAdminRights"
-import BrowseDatapoint from "./Browse/BrowseDatapoint"
-import DatapointDetails from "./Browse/DatapointDetails"
-import CreateDatapoint from "./Admin/CreateDatapoint"
+import Workup from "./Patient/Workup"
 
 import styled from "styled-components"
 
@@ -145,6 +147,15 @@ const App = () => {
                         <MyModules />
                     </Route>
                     <Route
+                        path="/note/:noteID/:patientID"
+                        render={({ match }) => (
+                            <NoteDetails
+                                noteID={match.params.noteID}
+                                patientID={match.params.patientID}
+                            />
+                        )}
+                    />
+                    <Route
                         path="/patient/:id"
                         render={({ match }) => {
                             return <PatientDetails id={match.params.id} />
@@ -164,6 +175,9 @@ const App = () => {
                     </Route>
                     <Route path="/test">
                         <Test />
+                    </Route>
+                    <Route path="/workup">
+                        <Workup />
                     </Route>
                 </Switch>
 

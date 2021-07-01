@@ -41,7 +41,6 @@ export class StandardBlock extends Component {
     }
     handleonSubmit = (formValues) => {
         this.props.onChange(formValues)
-        console.log(formValues)
     }
     render() {
         return (
